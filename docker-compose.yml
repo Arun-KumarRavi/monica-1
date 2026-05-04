@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     volumes:
-      - .:/var/www/html
+      - espocrm-app:/var/www/html
     environment:
       - ESPOCRM_DATABASE_HOST=db
       - ESPOCRM_DATABASE_USER=root
@@ -22,7 +22,7 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - .:/var/www/html
+      - espocrm-app:/var/www/html
     depends_on:
       - backend
 
@@ -42,7 +42,7 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     volumes:
-      - .:/var/www/html
+      - espocrm-app:/var/www/html
     command: >
       sh -c "while true; do php cron.php; sleep 60; done"
     depends_on:
@@ -51,3 +51,4 @@ services:
 
 volumes:
   db-data:
+  espocrm-app:

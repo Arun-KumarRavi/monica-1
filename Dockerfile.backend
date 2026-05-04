@@ -29,5 +29,11 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# Ensure correct permissions for www-data
-RUN chown -R www-data:www-data /var/www/html
+# Build the application dependencies and frontend assets inside the image
+RUN composer install --no-interaction --no-dev --optimize-autoloader \
+    && npm install \
+    && npm run build
+
+# Ensure correct permissions for www-data, including the data directory
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/data || true
